@@ -25,7 +25,6 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # lookup_field = 'pk' ??
 
 @api_view(['GET','PUT','DELETE'])
 def Product_detail(request, pk):
