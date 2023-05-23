@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework_swagger",
+    'django_filters',
     "drf_yasg",
-    "api",
     "products",
     "rest_framework",
 ]
@@ -71,7 +71,9 @@ TEMPLATES = [
         },
     },
 ]
-
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 WSGI_APPLICATION = "cfehome.wsgi.application"
 
 

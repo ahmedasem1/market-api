@@ -1,9 +1,10 @@
 from rest_framework import generics
-
-
+from rest_framework.response import Response
+from rest_framework import status
 from .models import Product
 from .serializers import ProductSerializer
-
+from rest_framework.decorators import api_view
+from django_filters.rest_framework import DjangoFilterBackend
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     # list is used to make an incremnt that we can use get all proudct method
@@ -20,10 +21,33 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         # send a Django signal
 
 
-product_list_create_view = ProductListCreateAPIView.as_view()
-
 
 class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # lookup_field = 'pk' ??
+
+@api_view(['GET','PUT','DELETE'])
+def Product_detail(request, pk):
+    """
+    Retrieve, update or delete a code snippet.
+    """
+    try:
+        product = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = ProductSerializer(product, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
