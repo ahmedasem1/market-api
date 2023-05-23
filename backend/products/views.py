@@ -29,7 +29,7 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
 @api_view(['GET','PUT','DELETE'])
 def Product_detail(request, pk):
     """
-    Retrieve, update or delete a code snippet.
+    Retrieve, update or delete a proudct.
     """
     try:
         product = Product.objects.get(pk=pk)
