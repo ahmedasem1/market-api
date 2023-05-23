@@ -4,7 +4,6 @@ from rest_framework import status
 from .models import Product
 from .serializers import ProductSerializer
 from rest_framework.decorators import api_view
-from django_filters.rest_framework import DjangoFilterBackend
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     # list is used to make an incremnt that we can use get all proudct method
